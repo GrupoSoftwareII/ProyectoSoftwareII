@@ -10,5 +10,5 @@ package Modelo;
  * @author Sebastian
  */
 public class Ejemplo {
-    
+    String ej;
 }
