@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modelo;
+package Controlador;
 
 /**
  *
  * @author Sebastian
  */
-public class Ejemplo {
-    String ej;
+public class CRUDPreguntaFOV {
+    
 }
