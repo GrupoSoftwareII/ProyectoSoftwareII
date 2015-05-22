@@ -14,8 +14,10 @@ import Modelo.Estudiante;
 public class CRUDEstudiante {
 
     Estudiante estudiante;
-
+    
+//SOLO ENSAYO
     public CRUDEstudiante() {
+        
         estudiante = new Estudiante();
     }
 
