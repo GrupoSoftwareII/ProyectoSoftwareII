@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author
+ * @author Oscar
  */
 public class Cliente{
 
