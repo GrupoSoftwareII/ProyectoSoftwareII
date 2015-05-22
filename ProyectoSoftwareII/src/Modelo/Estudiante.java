@@ -12,6 +12,7 @@ package Modelo;
 public class Estudiante {
     private String codigo;
     private String grupo;
+    private String prueba;
     private int puntos;
     private String nombre;
     private String apellido;
