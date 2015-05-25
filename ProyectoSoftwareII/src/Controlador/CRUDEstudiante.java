@@ -8,7 +8,7 @@ package Controlador;
 import Modelo.Estudiante;
 
 /**
- *
+ *buenas
  * @author Sebastian
  */
 public class CRUDEstudiante {
