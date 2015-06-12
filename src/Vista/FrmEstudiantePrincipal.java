@@ -21,15 +21,15 @@ public class FrmEstudiantePrincipal extends javax.swing.JFrame {
 
     public FrmEstudiantePrincipal() {
         initComponents();
-        estudiante = new Estudiante();
-
+       this.setLocationRelativeTo(null);
     }
 
+    
     public void iniciar(Estudiante e) {
         btnPremios.setVisible(true);
         btnPuntos.setVisible(true);
         btnQuestionario.setVisible(true);
-        this.setBounds(0, 0, 300,200);
+        this.setBounds(0, 0, 300, 200);
         this.setTitle(e.getNombre());
         estudiante = e;
     }
@@ -100,9 +100,11 @@ public class FrmEstudiantePrincipal extends javax.swing.JFrame {
     private void btnQuestionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuestionarioActionPerformed
         // TODO add your handling code here:
         FrmEstudianteQuestionario frmQuestionario = new FrmEstudianteQuestionario();
+        frmQuestionario.setFrmEstudiante(this);
         frmQuestionario.setEstudiante(estudiante);
-        frmQuestionario.setVisible(true);
-
+//        frmQuestionario.solicitarPregunta(estudiante);           
+        this.setVisible(false);
+//        this.dispose();
     }//GEN-LAST:event_btnQuestionarioActionPerformed
 
     /**

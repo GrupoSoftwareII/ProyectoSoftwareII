@@ -22,7 +22,6 @@ public class FrmLogin extends javax.swing.JFrame {
 
     public FrmLogin() {
         initComponents();
-        e = new Estudiante();
 
     }
 
@@ -105,12 +104,14 @@ public class FrmLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         if (!(jTextField1.getText() == "" || jPasswordField1.getText() == "")) {
+            e = new Estudiante();
             String usuario = jTextField1.getText();
             String pass = jPasswordField1.getText();
             e.conectar(usuario, pass);
             System.out.println("conectado" + e.isConectado());
-            if (e.isConectado()) {
-                System.out.println("conectado en el loggin");
+            if (e.isExiste()) {
+                JOptionPane.showMessageDialog(this, "Estudiante ya ha iniciado sesion");
+            } else if (e.isConectado()) {
                 th = new Thread(this.e);
                 th.start();
                 FrmEstudiantePrincipal ep = new FrmEstudiantePrincipal();

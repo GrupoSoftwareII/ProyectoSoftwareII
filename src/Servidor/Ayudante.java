@@ -22,11 +22,10 @@ public class Ayudante implements Runnable {
     DataInputStream dis;
     DataOutputStream dos;
     Servidor servidor;
-    int id;
+    String codigo;
 
-    public Ayudante(Socket socket, Servidor servidor, int id) {
+    public Ayudante(Socket socket, Servidor servidor) {
         try {
-            this.id = id;
             this.socket = socket;
             this.servidor = servidor;
             this.dis = new DataInputStream(socket.getInputStream());
@@ -36,24 +35,19 @@ public class Ayudante implements Runnable {
         }
     }
 
-    public void leer() {
-        try {
-            while (true) {
-                String respuesta = dis.readUTF();
-                manejador(respuesta);
-            }
-        } catch (IOException ex) {
-            System.out.println("se desconecto el estudiante");
-
-        }
-    }
-
     public void manejador(String evento) {
         String[] datos = evento.split(";");
         if (datos[0].equals("conectar")) {
-            servidor.loguearUsuario(datos, id);
+            this.codigo = datos[1];
+            servidor.loguearUsuario(datos, datos[1]);
+        } else if (datos[0].equals("pregunta")) {
+            System.out.println("Llegue al ayudante Preguntaaaaaaaaa");
+            servidor.solicitarPregunta(this.codigo);
         } else if (datos[0].equals("respuesta")) {
-
+            System.out.println("guardar respuestaa yudante" + datos[3]);
+            servidor.guardarRespuesta(datos[1], this.codigo, datos[3]);
+        } else if (datos[0].equalsIgnoreCase("puntos")) {
+            servidor.actualizarPuntos(datos[1], this.codigo);
         }
 
     }
@@ -65,7 +59,15 @@ public class Ayudante implements Runnable {
 
     @Override
     public void run() {
-        leer();
+        try {
+            while (true) {
+                String respuesta = dis.readUTF();
+                manejador(respuesta);
+            }
+        } catch (IOException ex) {
+            System.out.println("se desconecto el estudiante");
+
+        }
     }
 
 }

@@ -21,14 +21,12 @@ import java.util.logging.Logger;
  */
 public class CRUDEstudiante {
 
-    Estudiante estudiante;
     ConexionBD cbd;
     Statement sentencia = null;
     Connection conn = null;
     ResultSet resultado = null;
 
     public CRUDEstudiante() {
-        estudiante = new Estudiante();
         cbd = new ConexionBD();
         try {
             cbd.conectar();
@@ -48,10 +46,12 @@ public class CRUDEstudiante {
             sentencia = cbd.getConn().createStatement();
             String sql = "Select * from estudiante where codigo='" + usuario + "';";
             resultado = sentencia.executeQuery(sql);
+            System.out.println("baseeeeee");
             while (resultado.next()) {
+                System.out.println("baseeee2"+resultado.getString("pass"));
                 if (pass.equals(resultado.getString("pass"))) {
                     System.out.println("iguaes");
-                    e = new Estudiante(resultado.getString("codigo"), Integer.parseInt(resultado.getString("puntos")), resultado.getString("apellido1"), resultado.getString("apellido2"));
+                    e = new Estudiante(resultado.getString("codigo"), Integer.parseInt(resultado.getString("puntos")), resultado.getString("nombre"), resultado.getString("apellido1"));
                 }
             }
 
@@ -62,6 +62,23 @@ public class CRUDEstudiante {
         }
         
         return e;
+    }
+    
+    public void actualizarPuntos(String puntos, String codEstduainte){
+    try {
+            sentencia = cbd.getConn().createStatement();
+            String sql = "update estudiante set puntos ="+puntos+ " where codigo = '" + codEstduainte + "';";
+            resultado = sentencia.executeQuery(sql);
+            while (resultado.next()) {
+                
+            }
+
+            cbd.getConn().close();
+
+        } catch (SQLException ex) {
+            System.out.println("no se pudo loguear");
+        }
+    
     }
 
 }

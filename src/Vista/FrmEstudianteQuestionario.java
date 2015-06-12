@@ -18,15 +18,55 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
      * Creates new form FrmEstudiante
      */
     Estudiante estudiante;
+    FrmEstudiantePrincipal frmEstudiante;
 
     public FrmEstudianteQuestionario() {
         initComponents();
 
     }
 
+    public void solicitarPregunta() {
+        estudiante.setPm(null);
+        estudiante.solicitarPregunta();
+        while (true) {
+            System.out.print("");
+            if (estudiante.getPm() != null) {
+                System.out.println("pregunta null " + estudiante.getPm().getPregunta());
+                if (estudiante.getPm().getPregunta().equalsIgnoreCase("No hay preguntas")) {
+                    JOptionPane.showMessageDialog(this, "No hay preguntas para responder");
+                    frmEstudiante = new FrmEstudiantePrincipal();
+                    frmEstudiante.iniciar(estudiante);
+                    frmEstudiante.setVisible(true);
+                    this.setEnabled(false);
+                    this.dispose();
+                    break;
+                } else {
+                    this.setVisible(true);
+                    System.out.println("enunciado: " + estudiante.getPm().getPregunta());
+                    jTxtEnunciado.setText(estudiante.getPm().getPregunta());
+                    txtOpcionA.setText(estudiante.getPm().getRespuestas().get(0));
+                    txtOpcionB.setText(estudiante.getPm().getRespuestas().get(1));
+                    txtOpcionC.setText(estudiante.getPm().getRespuestas().get(2));
+                    txtOpcionD.setText(estudiante.getPm().getRespuestas().get(3));
+                    break;
+                }
+            }
+        }
+    }
+
+    public FrmEstudiantePrincipal getFrmEstudiante() {
+        return frmEstudiante;
+    }
+
+    public void setFrmEstudiante(FrmEstudiantePrincipal frmEstudiante) {
+        this.frmEstudiante = frmEstudiante;
+    }
 
     public void setEstudiante(Estudiante estudiante) {
         this.estudiante = estudiante;
+        this.labelNombre.setText(estudiante.getNombre());
+        this.labelPuntos.setText(estudiante.getPuntos() + "");
+        this.solicitarPregunta();
     }
 
     /**
@@ -50,15 +90,15 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        txtOpcion1 = new javax.swing.JTextArea();
+        txtOpcionA = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        txtOpcion3 = new javax.swing.JTextArea();
+        txtOpcionC = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txtOpcion4 = new javax.swing.JTextArea();
+        txtOpcionD = new javax.swing.JTextArea();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
+        jTxtEnunciado = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
-        txtOpcion2 = new javax.swing.JTextArea();
+        txtOpcionB = new javax.swing.JTextArea();
         btnGuardarYSalir = new javax.swing.JButton();
         btnContinuar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -109,41 +149,41 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
             }
         });
 
-        txtOpcion1.setEditable(false);
-        txtOpcion1.setBackground(new java.awt.Color(240, 240, 240));
-        txtOpcion1.setColumns(20);
-        txtOpcion1.setRows(5);
-        jScrollPane2.setViewportView(txtOpcion1);
+        txtOpcionA.setEditable(false);
+        txtOpcionA.setBackground(new java.awt.Color(240, 240, 240));
+        txtOpcionA.setColumns(20);
+        txtOpcionA.setRows(5);
+        jScrollPane2.setViewportView(txtOpcionA);
 
-        txtOpcion3.setEditable(false);
-        txtOpcion3.setBackground(new java.awt.Color(240, 240, 240));
-        txtOpcion3.setColumns(20);
-        txtOpcion3.setRows(5);
-        txtOpcion3.setBorder(null);
-        jScrollPane3.setViewportView(txtOpcion3);
+        txtOpcionC.setEditable(false);
+        txtOpcionC.setBackground(new java.awt.Color(240, 240, 240));
+        txtOpcionC.setColumns(20);
+        txtOpcionC.setRows(5);
+        txtOpcionC.setBorder(null);
+        jScrollPane3.setViewportView(txtOpcionC);
 
-        txtOpcion4.setEditable(false);
-        txtOpcion4.setBackground(new java.awt.Color(240, 240, 240));
-        txtOpcion4.setColumns(20);
-        txtOpcion4.setRows(5);
-        txtOpcion4.setBorder(null);
-        txtOpcion4.setCaretColor(new java.awt.Color(240, 240, 240));
-        txtOpcion4.setSelectionColor(new java.awt.Color(240, 240, 240));
-        jScrollPane4.setViewportView(txtOpcion4);
-        txtOpcion4.getAccessibleContext().setAccessibleName("");
+        txtOpcionD.setEditable(false);
+        txtOpcionD.setBackground(new java.awt.Color(240, 240, 240));
+        txtOpcionD.setColumns(20);
+        txtOpcionD.setRows(5);
+        txtOpcionD.setBorder(null);
+        txtOpcionD.setCaretColor(new java.awt.Color(240, 240, 240));
+        txtOpcionD.setSelectionColor(new java.awt.Color(240, 240, 240));
+        jScrollPane4.setViewportView(txtOpcionD);
+        txtOpcionD.getAccessibleContext().setAccessibleName("");
 
-        jTextArea5.setEditable(false);
-        jTextArea5.setBackground(new java.awt.Color(240, 240, 240));
-        jTextArea5.setColumns(20);
-        jTextArea5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jTextArea5.setRows(5);
-        jScrollPane5.setViewportView(jTextArea5);
+        jTxtEnunciado.setEditable(false);
+        jTxtEnunciado.setBackground(new java.awt.Color(240, 240, 240));
+        jTxtEnunciado.setColumns(20);
+        jTxtEnunciado.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jTxtEnunciado.setRows(5);
+        jScrollPane5.setViewportView(jTxtEnunciado);
 
-        txtOpcion2.setEditable(false);
-        txtOpcion2.setBackground(new java.awt.Color(240, 240, 240));
-        txtOpcion2.setColumns(20);
-        txtOpcion2.setRows(5);
-        jScrollPane6.setViewportView(txtOpcion2);
+        txtOpcionB.setEditable(false);
+        txtOpcionB.setBackground(new java.awt.Color(240, 240, 240));
+        txtOpcionB.setColumns(20);
+        txtOpcionB.setRows(5);
+        jScrollPane6.setViewportView(txtOpcionB);
 
         btnGuardarYSalir.setBackground(new java.awt.Color(204, 0, 0));
         btnGuardarYSalir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -321,45 +361,64 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
         } else {
             String respuesta = "";
             if (jRadioButton1.isSelected()) {
-                respuesta = txtOpcion1.getText();                
-                
+                respuesta = "a";
 
             } else if (jRadioButton2.isSelected()) {
-                respuesta = txtOpcion2.getText();
+                respuesta = "b";
 
             } else if (jRadioButton3.isSelected()) {
-                respuesta = txtOpcion3.getText();
+                respuesta = "c";
 
             } else if (jRadioButton4.isSelected()) {
-                respuesta = txtOpcion4.getText();
+                respuesta = "d";
 
             }
-            estudiante.enviarRespuesta(respuesta);
+            //cambio
+            System.out.println("respuesta+:::::" + respuesta);
+            if (respuesta.equals(estudiante.getPm().getRespuestaCorrecta())) {
+                int pt = Integer.parseInt(this.labelPuntos.getText()) + 5;
+                this.labelPuntos.setText("" + pt);
+                estudiante.guardarPuntos("" + pt);
+                estudiante.setPuntos(pt);
+            }
+            estudiante.enviarRespuesta(respuesta, "" + estudiante.getPm().getId());
+            solicitarPregunta();
         }
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnGuardarYSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarYSalirActionPerformed
-           if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected() && !jRadioButton3.isSelected() && !jRadioButton4.isSelected()) {
+        if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected() && !jRadioButton3.isSelected() && !jRadioButton4.isSelected()) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una opcion");
         } else {
             String respuesta = "";
             if (jRadioButton1.isSelected()) {
-                respuesta = txtOpcion1.getText();                
-                
+                respuesta = "a";
 
             } else if (jRadioButton2.isSelected()) {
-                respuesta = txtOpcion2.getText();
+                respuesta = "b";
 
             } else if (jRadioButton3.isSelected()) {
-                respuesta = txtOpcion3.getText();
+                respuesta = "c";
 
             } else if (jRadioButton4.isSelected()) {
-                respuesta = txtOpcion4.getText();
+                respuesta = "d";
 
             }
             //cambio
-            estudiante.enviarRespuesta(respuesta);
-        } 
+            System.out.println("respuesta+:::::" + respuesta);
+            if (respuesta.equals(estudiante.getPm().getRespuestaCorrecta())) {
+                int pt = Integer.parseInt(this.labelPuntos.getText()) + 5;
+                this.labelPuntos.setText("" + pt);
+                estudiante.guardarPuntos("" + pt);
+                estudiante.setPuntos(pt);
+            }
+            estudiante.enviarRespuesta(respuesta, "" + estudiante.getPm().getId());
+            frmEstudiante = new FrmEstudiantePrincipal();
+            frmEstudiante.iniciar(estudiante);
+            frmEstudiante.setVisible(true);
+            this.dispose();
+
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarYSalirActionPerformed
 
@@ -426,12 +485,12 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea5;
+    private javax.swing.JTextArea jTxtEnunciado;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JLabel labelPuntos;
-    private javax.swing.JTextArea txtOpcion1;
-    private javax.swing.JTextArea txtOpcion2;
-    private javax.swing.JTextArea txtOpcion3;
-    private javax.swing.JTextArea txtOpcion4;
+    private javax.swing.JTextArea txtOpcionA;
+    private javax.swing.JTextArea txtOpcionB;
+    private javax.swing.JTextArea txtOpcionC;
+    private javax.swing.JTextArea txtOpcionD;
     // End of variables declaration//GEN-END:variables
 }
