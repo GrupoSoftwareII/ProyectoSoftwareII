@@ -5,10 +5,15 @@
  */
 package Controlador;
 
+import Modelo.PreguntaMultiple;
+import Utilidades.ConexionBD;
+
 /**
  *
  * @author Sebastian
  */
 public class CRUDPreguntaMultiple {
-    
+
+    ConexionBD cbd;
+    PreguntaMultiple pgm;
 }

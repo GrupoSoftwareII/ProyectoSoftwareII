@@ -22,9 +22,11 @@ public class Ayudante implements Runnable {
     DataInputStream dis;
     DataOutputStream dos;
     Servidor servidor;
+    int id;
 
-    public Ayudante(Socket socket, Servidor servidor) {
+    public Ayudante(Socket socket, Servidor servidor, int id) {
         try {
+            this.id = id;
             this.socket = socket;
             this.servidor = servidor;
             this.dis = new DataInputStream(socket.getInputStream());
@@ -49,11 +51,16 @@ public class Ayudante implements Runnable {
     public void manejador(String evento) {
         String[] datos = evento.split(";");
         if (datos[0].equals("conectar")) {
-            servidor.loguearUsuario(datos);
+            servidor.loguearUsuario(datos, id);
         } else if (datos[0].equals("respuesta")) {
 
         }
 
+    }
+
+    public void desconectar() {
+        this.socket = null;
+        Thread.currentThread().interrupt();
     }
 
     @Override

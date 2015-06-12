@@ -5,6 +5,7 @@
  */
 package Utilidades;
 
+import Modelo.Estudiante;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -17,16 +18,41 @@ public class ConexionBD {
     String driver = "org.postgresql.Driver"; // el nombre de nuestro driver Postgres. 
     String connectString = "jdbc:postgresql://localhost:5432/PruebasColegioBD"; // llamamos nuestra bd 
     String user = "postgres"; // usuario postgres 
-    String password = "admin"; // no tiene password nuestra bd. 
+    String password = "qiw09c"; // no tiene password nuestra bd. 
     Statement sentencia = null;
     Connection conn = null;
     ResultSet resultado = null;
+
+    public Statement getSentencia() {
+        return sentencia;
+    }
+
+    public void setSentencia(Statement sentencia) {
+        this.sentencia = sentencia;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public ResultSet getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(ResultSet resultado) {
+        this.resultado = resultado;
+    }
 
     public void conectar() throws ClassNotFoundException {
         try {
             Class.forName(driver);
             //Hacemos la coneccion. 
             conn = DriverManager.getConnection(connectString, user, password);
+            sentencia = conn.createStatement();
             //Si la conexion fue realizada con exito, muestra el sgte mensaje. 
             System.out.println("Conexion a la base de datos chat realizada con exito! ");
             //Cerramos la conexion 
@@ -96,5 +122,6 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "Mensaje no enviado");
         }
     }
+    
 
 }

@@ -18,10 +18,12 @@ public class FrmLogin extends javax.swing.JFrame {
      * Creates new form FrmLogin
      */
     Estudiante e;
+    Thread th;
 
     public FrmLogin() {
         initComponents();
         e = new Estudiante();
+
     }
 
     /**
@@ -106,8 +108,18 @@ public class FrmLogin extends javax.swing.JFrame {
             String usuario = jTextField1.getText();
             String pass = jPasswordField1.getText();
             e.conectar(usuario, pass);
-            FrmEstudiantePrincipal ep = new FrmEstudiantePrincipal(e);
-            ep.setVisible(true);
+            System.out.println("conectado" + e.isConectado());
+            if (e.isConectado()) {
+                System.out.println("conectado en el loggin");
+                th = new Thread(this.e);
+                th.start();
+                FrmEstudiantePrincipal ep = new FrmEstudiantePrincipal();
+                ep.iniciar(e);
+                ep.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Estudiante no registrado");
+            }
 
         } else {
             JOptionPane.showMessageDialog(this, "Ingresar todos los campos");

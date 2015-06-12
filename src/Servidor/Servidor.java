@@ -29,6 +29,10 @@ public class Servidor implements Runnable {
     LinkedList<Ayudante> listaAyudantes;
 
     public Servidor() {
+        configurar();
+        bdEstudiante = new CRUDEstudiante();
+        bdPregunta = new CRUDPreguntaMultiple();
+        listaAyudantes = new LinkedList<Ayudante>();
     }
 
     public ServerSocket getSs() {
@@ -59,12 +63,56 @@ public class Servidor implements Runnable {
 
     }
 
+    public void configurar() {
+        try {
+            this.ss = new ServerSocket(1399);
+        } catch (IOException ex) {
+            System.out.println("n se pudo configurar el server socket");
+        }
+    }
+
+    public void loguearUsuario(String[] datos, int id) {
+        Estudiante e = bdEstudiante.loguearEstudiantes(datos[1], datos[2]);
+        if (e != null) {
+            try {
+                System.out.println("quiero conectar-------" + "conectado;" + e.getCodigo() + ";" + e.getPuntos());
+                for (int i = 0; i < listaAyudantes.size(); i++) {
+                    if (listaAyudantes.get(i).id == id) {
+                        dos = new DataOutputStream(listaAyudantes.get(i).socket.getOutputStream());
+                        dos.writeUTF("conectado;" + e.getCodigo() + ";" + e.getPuntos());
+                    }
+                }
+
+            } catch (IOException ex) {
+                System.out.println("no se pudo enviar el mensaje de conectado");
+            }
+        } else {
+            try {
+                System.out.println("entre a nulo");
+                for (int i = 0; i < listaAyudantes.size(); i++) {
+                    System.out.println("lista: " + listaAyudantes.size());
+                    if (listaAyudantes.get(i).id == id) {
+                        dos = new DataOutputStream(listaAyudantes.get(i).socket.getOutputStream());
+                        dos.writeUTF("nologin");
+                    }
+                    listaAyudantes.get(i).desconectar();
+                    listaAyudantes.remove(i);
+                }
+            } catch (IOException ex) {
+                System.out.println("no se pudo enviar el mensaje de que no se pudo conectar");
+            }
+        }
+    }
+
     @Override
     public void run() {
         while (true) {
             try {
                 Socket socket = ss.accept();
-                Ayudante a = new Ayudante(socket, this);
+                Ayudante a = new Ayudante(socket, this, listaAyudantes.size());
+                Thread hiloAyudante = new Thread(a);
+                hiloAyudante.start();
+                System.out.println("tamano. "+listaAyudantes.size());
                 listaAyudantes.add(a);
 
             } catch (IOException ex) {
@@ -73,20 +121,9 @@ public class Servidor implements Runnable {
         }
     }
 
-    public void loguearUsuario(String[] datos) {
-      Estudiante e= bdEstudiante.loguearEstudiantes(datos[1], datos[2]);
-        if (e!=null) {
-            try {
-                dos.writeUTF("conectado;"+e.getCodigo()+";"+e.getPuntos());
-            } catch (IOException ex) {
-                System.out.println("no se pudo enviar el mensaje de conectado");
-            }
-        } else {
-            try {
-                dos.writeUTF("desconectado;");
-            } catch (IOException ex) {
-                System.out.println("no se pudo enviar el mensaje de que no se pudo conectar");
-            }
-        }
+    public static void main(String[] args) {
+        Servidor s = new Servidor();
+        Thread hilo = new Thread(s);
+        hilo.start();
     }
 }

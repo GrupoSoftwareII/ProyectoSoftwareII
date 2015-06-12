@@ -21,15 +21,16 @@ public class FrmEstudiantePrincipal extends javax.swing.JFrame {
 
     public FrmEstudiantePrincipal() {
         initComponents();
-        btnPremios.setEnabled(false);
-        btnPuntos.setEnabled(false);
         estudiante = new Estudiante();
 
     }
 
-    public FrmEstudiantePrincipal(Estudiante e) {
-        btnPremios.setEnabled(false);
-        btnPuntos.setEnabled(false);
+    public void iniciar(Estudiante e) {
+        btnPremios.setVisible(true);
+        btnPuntos.setVisible(true);
+        btnQuestionario.setVisible(true);
+        this.setBounds(0, 0, 300,200);
+        this.setTitle(e.getNombre());
         estudiante = e;
     }
 
