@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Modelo.Estudiante;
+import java.awt.HeadlessException;
+
 /**
  *
  * @author Sebastian
@@ -14,12 +17,24 @@ public class FrmEstudiantePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FrmPregunta
      */
+    Estudiante estudiante;
+
     public FrmEstudiantePrincipal() {
         initComponents();
         btnPremios.setEnabled(false);
         btnPuntos.setEnabled(false);
-    
-    
+        estudiante = new Estudiante();
+
+    }
+
+    public FrmEstudiantePrincipal(Estudiante e) {
+        btnPremios.setEnabled(false);
+        btnPuntos.setEnabled(false);
+        estudiante = e;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 
     /**
@@ -84,8 +99,9 @@ public class FrmEstudiantePrincipal extends javax.swing.JFrame {
     private void btnQuestionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuestionarioActionPerformed
         // TODO add your handling code here:
         FrmEstudianteQuestionario frmQuestionario = new FrmEstudianteQuestionario();
+        frmQuestionario.setEstudiante(estudiante);
         frmQuestionario.setVisible(true);
-        
+
     }//GEN-LAST:event_btnQuestionarioActionPerformed
 
     /**
