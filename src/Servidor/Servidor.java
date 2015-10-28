@@ -24,48 +24,48 @@ import javax.swing.JOptionPane;
  * @author Santitigaga
  */
 public class Servidor implements Runnable {
-    
+
     CRUDEstudiante bdEstudiante;
     CRUDPreguntaMultiple bdPregunta;
     CRUDHistorial bdHistorial;
     ServerSocket ss;
     DataOutputStream dos;
     LinkedList<Ayudante> listaAyudantes;
-    
+
     public Servidor() {
         configurar();
         bdPregunta = new CRUDPreguntaMultiple();
         listaAyudantes = new LinkedList<Ayudante>();
     }
-    
+
     public ServerSocket getSs() {
         return ss;
     }
-    
+
     public void setSs(ServerSocket ss) {
         this.ss = ss;
     }
-    
+
     public DataOutputStream getDos() {
         return dos;
     }
-    
+
     public void setDos(DataOutputStream dos) {
         this.dos = dos;
     }
-    
+
     public LinkedList<Ayudante> getListaAyudantes() {
         return listaAyudantes;
     }
-    
+
     public void setListaAyudantes(LinkedList<Ayudante> listaAyudantes) {
         this.listaAyudantes = listaAyudantes;
     }
-    
+
     public void estudianteRespuesta(String respuesta, String idEstudiante, String idPregunta) {
-        
+
     }
-    
+
     public void configurar() {
         try {
             this.ss = new ServerSocket(1399);
@@ -73,7 +73,7 @@ public class Servidor implements Runnable {
             System.out.println("n se pudo configurar el server socket");
         }
     }
-    
+
     public boolean existe() {
         int cont = 0;
         String x = listaAyudantes.getLast().codigo;
@@ -88,9 +88,9 @@ public class Servidor implements Runnable {
         } else {
             return false;
         }
-        
+
     }
-    
+
     public void loguearUsuario(String[] datos, String codigo) {
         bdEstudiante = new CRUDEstudiante();
         Estudiante e = bdEstudiante.loguearEstudiantes(datos[1], datos[2]);
@@ -123,7 +123,7 @@ public class Servidor implements Runnable {
                         dos.writeUTF("nologin");
                         listaAyudantes.get(i).desconectar();
                         listaAyudantes.remove(i);
-                        
+
                     }
                 }
             } catch (IOException ex) {
@@ -131,7 +131,7 @@ public class Servidor implements Runnable {
             }
         }
     }
-    
+
     public void solicitarPregunta(String codigo) {
         PreguntaMultiple pm = bdPregunta.solicitarPregunta(codigo);
         if (pm != null) {
@@ -145,10 +145,10 @@ public class Servidor implements Runnable {
                     } catch (IOException ex) {
                         Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
             }
-            
+
         } else {
             for (int i = 0; i < listaAyudantes.size(); i++) {
                 if (listaAyudantes.get(i).codigo.equals(codigo)) {
@@ -158,26 +158,26 @@ public class Servidor implements Runnable {
                     } catch (IOException ex) {
                         Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
             }
         }
-        
+
     }
-    
+
     public void guardarRespuesta(String respuesta, String codestudiante, String idpregunta) {
         System.out.println("llegando al guardar respuesta servidor");
-        bdHistorial=new CRUDHistorial();
+        bdHistorial = new CRUDHistorial();
         bdHistorial.guardarRespuesta(respuesta, codestudiante, idpregunta);
-       
+
     }
-    
-   public void actualizarPuntos(String puntos, String codEstduainte){   
-   bdEstudiante=new CRUDEstudiante();
-   bdEstudiante.actualizarPuntos(puntos,codEstduainte);
-   
-   }
-    
+
+    public void actualizarPuntos(String puntos, String codEstduainte) {
+        bdEstudiante = new CRUDEstudiante();
+        bdEstudiante.actualizarPuntos(puntos, codEstduainte);
+
+    }
+
     @Override
     public void run() {
         while (true) {
@@ -188,13 +188,13 @@ public class Servidor implements Runnable {
                 hiloAyudante.start();
                 System.out.println("listaadd--------------------------------------------------------------------------");
                 listaAyudantes.add(a);
-                
+
             } catch (IOException ex) {
                 System.out.println("no se pudo crear el ayudante");
             }
         }
     }
-    
+
     public static void main(String[] args) {
         Servidor s = new Servidor();
         Thread hilo = new Thread(s);
