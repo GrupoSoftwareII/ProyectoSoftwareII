@@ -107,6 +107,11 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -422,6 +427,44 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarYSalirActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if (!jRadioButton1.isSelected() && !jRadioButton2.isSelected() && !jRadioButton3.isSelected() && !jRadioButton4.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una opcion");
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        } else {
+
+            String respuesta = "";
+            if (jRadioButton1.isSelected()) {
+                respuesta = "a";
+
+            } else if (jRadioButton2.isSelected()) {
+                respuesta = "b";
+
+            } else if (jRadioButton3.isSelected()) {
+                respuesta = "c";
+
+            } else if (jRadioButton4.isSelected()) {
+                respuesta = "d";
+
+            }
+            //cambio
+            System.out.println("respuesta cerro x +:::::" + respuesta);
+            if (respuesta.equals(estudiante.getPm().getRespuestaCorrecta())) {
+                int pt = Integer.parseInt(this.labelPuntos.getText()) + 5;
+                this.labelPuntos.setText("" + pt);
+                estudiante.guardarPuntos("" + pt);
+                estudiante.setPuntos(pt);
+            }
+            estudiante.enviarRespuesta(respuesta, "" + estudiante.getPm().getId());
+            frmEstudiante = new FrmEstudiantePrincipal();
+            frmEstudiante.iniciar(estudiante);
+            frmEstudiante.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -436,16 +479,21 @@ public class FrmEstudianteQuestionario extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmEstudianteQuestionario.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
